@@ -8,30 +8,30 @@ var tokenLineLab = '5utV0rqbi4biDTTFGi2YEeBOCIoVFVlaa8UKvP06iRf'
 var tokenLineProduction = '4NDaXviNWZub9nXzKHPwnKSt07xAmG4aqOLwNzlHhjd'
 // 5utV0rqbi4biDTTFGi2YEeBOCIoVFVlaa8UKvP06iRf
 // 4NDaXviNWZub9nXzKHPwnKSt07xAmG4aqOLwNzlHhjd
-function SendLineSample(){
-    request({
-        method: 'POST',
-        uri: 'https://notify-api.line.me/api/notify',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        auth: {
-          'bearer': tokenLineLab
-        },
-        form: {
-          message: `มีการส่งตัวอย่าง`
-        }
-      }, (err, httpResponse, body) => {
-        if(err){
-          console.log(err);
-        } else {
-          res.json({
-            httpResponse: httpResponse,
-            body: body
-          });
-        }
-      });
-}
+// function SendLineSample(){
+//     request({
+//         method: 'POST',
+//         uri: 'https://notify-api.line.me/api/notify',
+//         headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded'
+//         },
+//         auth: {
+//           'bearer': tokenLineLab
+//         },
+//         form: {
+//           message: `มีการส่งตัวอย่าง`
+//         }
+//       }, (err, httpResponse, body) => {
+//         if(err){
+//           console.log(err);
+//         } else {
+//           res.json({
+//             httpResponse: httpResponse,
+//             body: body
+//           });
+//         }
+//       });
+// }
 exports.addOrder = (req, res, next) => {
     var {
         body
@@ -335,7 +335,7 @@ exports.updateOrder = (req, res, next) => {
                 var sql2 ="UPDATE `jaw-app`.`testResults` SET  \
                             TnC = ? , PHC =? , SaltC = ? , TssC = ?, \
                             HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=? WHERE idOrderTested = ? "
-                    connection.query(sql2, [Tn, PH, Salt, Tss, Histamine, SPG, Aw , AN, Acidity, Viscosity, ,SaltMeter,Color, Micro, idOrders], (err, results) => {
+                    connection.query(sql2, [Tn, PH, Salt, Tss, Histamine, SPG, Aw , AN, Acidity, Viscosity, SaltMeter,Color, Micro, idOrders], (err, results) => {
                         if(err){
                             return next(err)
                         }else{
@@ -1018,7 +1018,8 @@ exports.Addtestreport = (req, res, next) => {
     var TempPH      = body.TempPH
     var TempAW      = body.TempAW
     var TempTSS     = body.TempTSS
-    var TempSPG      = body.TempSPG
+    var TempSPG     = body.TempSPG
+    var timeStamp   = body.timeStamp
     // console.log('body : ' , body)
     req.getConnection((err, connection) => {
         if(err) return next(err)
@@ -1033,15 +1034,16 @@ exports.Addtestreport = (req, res, next) => {
         // `Yeasts`, `EColi`, `Coliform`, \
         // `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? ) ; "
         
-        var sql ="UPDATE `jaw-app`.`testResults` SET Recheck = ?, idSpfChem = ?, \
+        var sql =
+					'UPDATE `jaw-app`.`testResults` SET Recheck = ?, idSpfChem = ?, \
         Tn = ? , PH =? , Salt = ? , Tss = ?, \
         Histamine = ? , SPGTest = ?, Aw = ?, \
         idSpfMicro = ?, APC = ?, \
         Yeasts = ?, EColi = ?, Coliform = ? , \
-        Saureus = ? , tempPH = ? , tempAW = ? , tempTss = ?  , tempSPG = ? , AN = ?, Acidity = ?, Viscosity = ?, SaltMeter=?, Color=?  WHERE idOrderTested = ? "
+        Saureus = ? , tempPH = ? , tempAW = ? , tempTss = ?  , tempSPG = ? , AN = ?, Acidity = ?, Viscosity = ?, SaltMeter=?, Color=? , timestampTest=? WHERE idOrderTested = ? ';
          connection.query(sql, [ Recheck, idSpfChem, Tn,
         PH, Salt, Tss, Histamine, SPG, Aw, idSpfMicro, APC, Yeasts, EColi, Coliform,
-        Saureus, TempPH , TempAW , TempTSS, TempSPG, AN, Acidity, Viscosity, SaltMeter, Color, idOrders
+        Saureus, TempPH , TempAW , TempTSS, TempSPG, AN, Acidity, Viscosity, SaltMeter, Color, timeStamp, idOrders
         ], (err, results) => {
             if(err){
                 return next(err)
@@ -1057,7 +1059,7 @@ exports.Addtestreport = (req, res, next) => {
 }
 
 function testResult(index){
-    // console.log('testResult ' , index)
+    console.log('testResult ', index.timestampTest);
     if(index){
         var results = []
         var TestedIndex = []
@@ -1392,7 +1394,7 @@ function testResult(index){
             }
             
 
-            TimeToTest.push({TimeTest : index.timestampTest})
+            TimeToTest.push({ TimeTest: index.timestampTest });
             results.push(TestedIndex, bio, TimeToTest)
             // console.log('index : ', index)
 
