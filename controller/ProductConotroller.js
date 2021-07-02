@@ -82,7 +82,7 @@ exports.addOrder = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'INSERT INTO `jaw-app`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority, Tn, PH, Salt, Tss , Histamine, Spg, Aw, Micro, AN, Acidity, Viscosity, SaltMeter, Color) \
+			'INSERT INTO `veit-hong`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority, Tn, PH, Salt, Tss , Histamine, Spg, Aw, Micro, AN, Acidity, Viscosity, SaltMeter, Color) \
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?, ?, ?, ?, ? , ?)';
 		connection.query(
 			sql,
@@ -126,7 +126,7 @@ exports.addOrder = (req, res, next) => {
 						if (err) return next(err);
 
 						var sql =
-							'INSERT INTO `jaw-app`.`testResults` \
+							'INSERT INTO `veit-hong`.`testResults` \
                      ( `Recheck`, `idSpfChem`, \
                     `Tn`, `PH`, `Salt`, `Tss`, \
                     `Histamine`, `SPGTest`, `Aw`, `AN`, `Acidity`, `Viscosity`,`SaltMeter`, `Color` , `idSpfMicro`, `APC`, \
@@ -184,7 +184,7 @@ exports.addOrder = (req, res, next) => {
 										if (err) next(err);
 
 										var sqlLine =
-											' SELECT name FROM `jaw-app`.PdSpecificChem where idPdSpecificChem = ? ';
+											' SELECT name FROM `veit-hong`.PdSpecificChem where idPdSpecificChem = ? ';
 										connection.query(sqlLine, [idchem], (err, results3) => {
 											if (err) {
 												return next(err);
@@ -259,7 +259,7 @@ exports.addOrder = (req, res, next) => {
 	//                              if(priority !== ''){
 	//                                 req.getConnection((err, connection) => {
 	//                                     if (err) return next(err)
-	//                                     var sql = "INSERT INTO `jaw-app`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority) \
+	//                                     var sql = "INSERT INTO `veit-hong`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority) \
 	//                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	//                                     connection.query(sql,[pord , bbe ,po ,productname,size,quantity,idchem  ,idmicro ,priority] , (err, results) => {
 	//                                         if(err){
@@ -276,7 +276,7 @@ exports.addOrder = (req, res, next) => {
 	//                                             req.getConnection((err, connection) => {
 	//                                                 if(err) return next(err)
 
-	//                                                 var sql ="INSERT INTO `jaw-app`.`testResults` \
+	//                                                 var sql ="INSERT INTO `veit-hong`.`testResults` \
 	//                                                  ( `Recheck`, `idSpfChem`, \
 	//                                                 `Tn`, `PH`, `Salt`, `Tss`, \
 	//                                                 `Histamine`, `SPGTest`, `Aw`, \
@@ -400,7 +400,7 @@ exports.updateOrder = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'UPDATE `jaw-app`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? ,Tn=? , PH =? , Salt=?, Tss=?, Histamine=?, Spg=?, Aw=? ,Micro=? ,\
+			'UPDATE `veit-hong`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? ,Tn=? , PH =? , Salt=?, Tss=?, Histamine=?, Spg=?, Aw=? ,Micro=? ,\
         AN=?, Acidity=?, Viscosity=?, SaltMeter=? , Color=? WHERE idOrders=?';
 		connection.query(
 			sql,
@@ -434,7 +434,7 @@ exports.updateOrder = (req, res, next) => {
 					return next(err);
 				} else {
 					var sql2 =
-						'UPDATE `jaw-app`.`testResults` SET  \
+						'UPDATE `veit-hong`.`testResults` SET  \
                             TnC = ? , PHC =? , SaltC = ? , TssC = ?, \
                             HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=? WHERE idOrderTested = ? ';
 					connection.query(
@@ -482,7 +482,7 @@ exports.reSend = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'UPDATE `jaw-app`.`Orders` SET  Status=0 WHERE idOrders = ?';
+		var sql = 'UPDATE `veit-hong`.`Orders` SET  Status=0 WHERE idOrders = ?';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -527,27 +527,27 @@ exports.deleteOrder = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var CheckReaTimeOrder =
-			'SELECT*FROM `jaw-app`.RealTimeOrder WHERE idOrder=?';
+			'SELECT*FROM `veit-hong`.RealTimeOrder WHERE idOrder=?';
 		connection.query(CheckReaTimeOrder, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
 			} else {
 				if (results.length > 0) {
 					var sqlDeleteRealTime =
-						'DELETE FROM `jaw-app`.`RealTimeOrder` WHERE idOrder=?';
+						'DELETE FROM `veit-hong`.`RealTimeOrder` WHERE idOrder=?';
 					connection.query(sqlDeleteRealTime, [idOrders], (err, results2) => {
 						if (err) {
 							return next(err);
 						} else {
 							var Checktested =
-								'SELECT*FROM `jaw-app`.testResults WHERE idOrderTested=?';
+								'SELECT*FROM `veit-hong`.testResults WHERE idOrderTested=?';
 							connection.query(Checktested, [idOrders], (err, results3) => {
 								if (err) {
 									return next(err);
 								} else {
 									if (results3.length > 0) {
 										var sqlTestDelete =
-											'DELETE FROM `jaw-app`.testResults WHERE idOrderTested=?';
+											'DELETE FROM `veit-hong`.testResults WHERE idOrderTested=?';
 										connection.query(
 											sqlTestDelete,
 											[idOrders],
@@ -556,7 +556,7 @@ exports.deleteOrder = (req, res, next) => {
 													return next(err);
 												} else {
 													var sql =
-														'DELETE FROM `jaw-app`.`Orders` WHERE idOrders=?';
+														'DELETE FROM `veit-hong`.`Orders` WHERE idOrders=?';
 													connection.query(sql, [idOrders], (err, results5) => {
 														if (err) {
 															return next(err);
@@ -573,7 +573,7 @@ exports.deleteOrder = (req, res, next) => {
 											}
 										);
 									} else {
-										var sql = 'DELETE FROM `jaw-app`.`Orders` WHERE idOrders=?';
+										var sql = 'DELETE FROM `veit-hong`.`Orders` WHERE idOrders=?';
 										connection.query(sql, [idOrders], (err, results6) => {
 											if (err) {
 												return next(err);
@@ -591,7 +591,7 @@ exports.deleteOrder = (req, res, next) => {
 						}
 					});
 				} else {
-					var sql = 'DELETE FROM `jaw-app`.`Orders` WHERE idOrders=?';
+					var sql = 'DELETE FROM `veit-hong`.`Orders` WHERE idOrders=?';
 					connection.query(sql, [idOrders], (err, results7) => {
 						if (err) {
 							return next(err);
@@ -617,8 +617,8 @@ exports.readAllOrder = (req, res, next) => {
 
 		var sql =
 			'SELECT Orders.idOrders, Orders.PORD ,  Orders.BBE, Orders.ProductName , Orders.Priority , Orders.Recheck , \
-        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `jaw-app`.Orders, \
-        `jaw-app`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem ORDER BY Orders.timestamp DESC';
+        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `veit-hong`.Orders, \
+        `veit-hong`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem ORDER BY Orders.timestamp DESC';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -641,8 +641,8 @@ exports.readOrdertoCheck = (req, res, next) => {
 
 		var sql =
 			'SELECT Orders.idOrders, Orders.PORD ,  Orders.BBE, Orders.ProductName , Orders.Priority , Orders.Recheck , \
-        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `jaw-app`.Orders, \
-        `jaw-app`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem ORDER BY Orders.Priority DESC';
+        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `veit-hong`.Orders, \
+        `veit-hong`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem ORDER BY Orders.Priority DESC';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -667,8 +667,8 @@ exports.urgentOrders = (req, res, next) => {
 
 		var sql =
 			'SELECT Orders.idOrders, Orders.PORD ,  Orders.BBE, Orders.ProductName , Orders.Priority , Orders.Recheck , \
-        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `jaw-app`.Orders, \
-        `jaw-app`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem AND Orders.Priority = ? ORDER BY Orders.timestamp DESC';
+        Orders.PO , Orders.Status , Orders.Size , Orders.Quantity , Orders.idScfChem , Orders.idScfMicro , Orders.timestamp , PdSpecificChem.name FROM `veit-hong`.Orders, \
+        `veit-hong`.PdSpecificChem  WHERE Orders.idScfChem = PdSpecificChem.idPdSpecificChem AND Orders.Priority = ? ORDER BY Orders.timestamp DESC';
 		connection.query(sql, [priority], (err, results) => {
 			if (err) {
 				return next(err);
@@ -690,7 +690,7 @@ exports.readRealTimeOrder = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'SELECT * FROM `jaw-app`.Orders,`jaw-app`.RealTimeOrder ,`jaw-app`.PdSpecificChem \
+			'SELECT * FROM `veit-hong`.Orders,`veit-hong`.RealTimeOrder ,`veit-hong`.PdSpecificChem \
         WHERE Orders.idOrders = RealTimeOrder.idOrder  AND Orders.idScfChem = PdSpecificChem.idPdSpecificChem ORDER BY Orders.timestamp DESC LIMIT 5';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
@@ -713,7 +713,7 @@ exports.addRealTimeOrder = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'INSERT INTO `jaw-app`.RealTimeOrder (`idOrder`) VALUES (?);';
+		var sql = 'INSERT INTO `veit-hong`.RealTimeOrder (`idOrder`) VALUES (?);';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -735,7 +735,7 @@ exports.readRecheckOrder = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'select * from `jaw-app`.Orders, `jaw-app`.PdSpecificChem \
+			'select * from `veit-hong`.Orders, `veit-hong`.PdSpecificChem \
          where Orders.Recheck > 0 AND Orders.idScfChem = PdSpecificChem.idPdSpecificChem  ORDER BY Orders.timestamp DESC';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
@@ -762,7 +762,7 @@ exports.readOrderById = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'SELECT*FROM `jaw-app`.`Orders`, `jaw-app`.`PdSpecificChem` WHERE idOrders = ? AND Orders.idScfChem = PdSpecificChem.idPdSpecificChem';
+			'SELECT*FROM `veit-hong`.`Orders`, `veit-hong`.`PdSpecificChem` WHERE idOrders = ? AND Orders.idScfChem = PdSpecificChem.idPdSpecificChem';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -783,7 +783,7 @@ exports.readAllSpecificChem = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT*FROM `jaw-app`.`PdSpecificChem`';
+		var sql = 'SELECT*FROM `veit-hong`.`PdSpecificChem`';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -804,7 +804,7 @@ exports.readAllSpecificMicro = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT*FROM `jaw-app`.`PdSpecificMicro`';
+		var sql = 'SELECT*FROM `veit-hong`.`PdSpecificMicro`';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -823,7 +823,7 @@ exports.readIdChem = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT idPdSpecificChem ,name FROM `jaw-app`.PdSpecificChem;';
+		var sql = 'SELECT idPdSpecificChem ,name FROM `veit-hong`.PdSpecificChem;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -842,7 +842,7 @@ exports.readIdMicro = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT idPdSpecificMicro ,name FROM `jaw-app`.PdSpecificMicro;';
+		var sql = 'SELECT idPdSpecificMicro ,name FROM `veit-hong`.PdSpecificMicro;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -864,7 +864,7 @@ exports.readAllSpecificChemById = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'SELECT*FROM `jaw-app`.`PdSpecificChem` WHERE idPdSpecificChem = ?';
+			'SELECT*FROM `veit-hong`.`PdSpecificChem` WHERE idPdSpecificChem = ?';
 		connection.query(sql, [idPdSpecificChem], (err, results) => {
 			if (err) {
 				return next(err);
@@ -886,7 +886,7 @@ exports.readAllSpecificBioById = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'SELECT*FROM `jaw-app`.`PdSpecificMicro` WHERE idPdSpecificMicro = ?';
+			'SELECT*FROM `veit-hong`.`PdSpecificMicro` WHERE idPdSpecificMicro = ?';
 		connection.query(sql, [idPdSpecificMicro], (err, results) => {
 			if (err) {
 				return next(err);
@@ -928,7 +928,7 @@ exports.addSpecificChem = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'SELECT `jaw-app`.`PdSpecificChem`.name FROM `jaw-app`.PdSpecificChem WHERE name=?';
+			'SELECT `veit-hong`.`PdSpecificChem`.name FROM `veit-hong`.PdSpecificChem WHERE name=?';
 		connection.query(sql, [name], (err, results) => {
 			if (err) {
 				return next(err);
@@ -941,7 +941,7 @@ exports.addSpecificChem = (req, res, next) => {
 					});
 				} else {
 					var sqlInsertSpecific =
-						'INSERT INTO `jaw-app`.`PdSpecificChem` ( name ,\
+						'INSERT INTO `veit-hong`.`PdSpecificChem` ( name ,\
                         TnMain          ,\
                         TnMax           ,\
                         PHControlMin    ,\
@@ -1026,7 +1026,7 @@ exports.updateSpecificChem = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'UPDATE `jaw-app`.`PdSpecificChem` SET  name =? ,\
+			'UPDATE `veit-hong`.`PdSpecificChem` SET  name =? ,\
             TnMain          =? ,\
             TnMax           =? ,\
             PHControlMin    =? ,\
@@ -1089,7 +1089,7 @@ exports.DeleteSpecificChemById = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'DELETE FROM `jaw-app`.`PdSpecificChem` WHERE idPdSpecificChem = ?';
+			'DELETE FROM `veit-hong`.`PdSpecificChem` WHERE idPdSpecificChem = ?';
 		connection.query(sql, [idPdSpecificChem], (err, results) => {
 			if (err) {
 				return next(err);
@@ -1142,10 +1142,10 @@ exports.Addtestreport = (req, res, next) => {
 	// console.log('timeStamp : ', timeStamp);
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		// var sql = "UPDATE `jaw-app`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? \
+		// var sql = "UPDATE `veit-hong`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? \
 		// WHERE idOrders=?"
 
-		// var sql ="INSERT INTO `jaw-app`.`testResults` \
+		// var sql ="INSERT INTO `veit-hong`.`testResults` \
 		//  ( `Recheck`, `idSpfChem`, \
 		// `Tn`, `PH`, `Salt`, `Tss`, \
 		// `Histamine`, `SPGTest`, `Aw`, \
@@ -1154,7 +1154,7 @@ exports.Addtestreport = (req, res, next) => {
 		// `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG` ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? ) ; "
 
 		var sql =
-			'UPDATE `jaw-app`.`testResults` SET Recheck = ?, idSpfChem = ?, \
+			'UPDATE `veit-hong`.`testResults` SET Recheck = ?, idSpfChem = ?, \
         Tn = ? , PH =? , Salt = ? , Tss = ?, \
         Histamine = ? , SPGTest = ?, Aw = ?, \
         idSpfMicro = ?, APC = ?, \
@@ -1958,7 +1958,7 @@ exports.readTestReportlasted = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'SELECT * FROM `jaw-app`.testResults, `jaw-app`.PdSpecificChem  , `jaw-app`.PdSpecificMicro \
+			'SELECT * FROM `veit-hong`.testResults, `veit-hong`.PdSpecificChem  , `veit-hong`.PdSpecificMicro \
          WHERE testResults.idOrderTested = ? AND testResults.idSpfChem = PdSpecificChem.idPdSpecificChem  ORDER BY testResults.timestampTest DESC LIMIT 1;';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
@@ -2003,7 +2003,7 @@ exports.Recheck = (req, res, next) => {
 		if (err) return next(err);
 
 		var sql =
-			'UPDATE `jaw-app`.`Orders` SET  Recheck=? , Status=2 WHERE idOrders = ?';
+			'UPDATE `veit-hong`.`Orders` SET  Recheck=? , Status=2 WHERE idOrders = ?';
 		connection.query(sql, [Recheck, idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2012,7 +2012,7 @@ exports.Recheck = (req, res, next) => {
 					if (err) return next(err);
 
 					var sql =
-						'UPDATE `jaw-app`.`RealTimeCardDS` SET  Recheck=Recheck+1 WHERE idRealTimeCardDS = 1';
+						'UPDATE `veit-hong`.`RealTimeCardDS` SET  Recheck=Recheck+1 WHERE idRealTimeCardDS = 1';
 					connection.query(sql, [Recheck, idOrders], (err, results) => {
 						if (err) {
 							return next(err);
@@ -2066,7 +2066,7 @@ exports.WaitMicro = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'UPDATE `jaw-app`.`Orders` SET Status=3 WHERE idOrders = ?';
+		var sql = 'UPDATE `veit-hong`.`Orders` SET Status=3 WHERE idOrders = ?';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2097,7 +2097,7 @@ exports.readFG = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT * FROM `jaw-app`.`RealTimeDonutFG` WHERE date=? ';
+		var sql = 'SELECT * FROM `veit-hong`.`RealTimeDonutFG` WHERE date=? ';
 		connection.query(sql, [formatted_date_now], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2113,7 +2113,7 @@ exports.readFG = (req, res, next) => {
 					req.getConnection((err, connection) => {
 						if (err) return next(err);
 						var sql =
-							'INSERT INTO `jaw-app`.`RealTimeDonutFG` (`TN` , `PH` , `SALT`, `TSS`, `HISTAMINE`, `SPG`, `AW`, `AN`, `Acidity`, `Viscosity`, `date`) VALUES (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ?);';
+							'INSERT INTO `veit-hong`.`RealTimeDonutFG` (`TN` , `PH` , `SALT`, `TSS`, `HISTAMINE`, `SPG`, `AW`, `AN`, `Acidity`, `Viscosity`, `date`) VALUES (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ?);';
 						connection.query(sql, [formatted_date_now], (err, results) => {
 							if (err) {
 								return next(err);
@@ -2148,7 +2148,7 @@ exports.readST = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 
-		var sql = 'SELECT * FROM `jaw-app`.`RealTimeDonutST` WHERE date=? ';
+		var sql = 'SELECT * FROM `veit-hong`.`RealTimeDonutST` WHERE date=? ';
 		connection.query(sql, [formatted_date_now], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2164,7 +2164,7 @@ exports.readST = (req, res, next) => {
 					req.getConnection((err, connection) => {
 						if (err) return next(err);
 						var sql =
-							'INSERT INTO `jaw-app`.`RealTimeDonutFG` (`water` , `swap` , `air`, `date`) VALUES (0, 0, 0, 0, ?);';
+							'INSERT INTO `veit-hong`.`RealTimeDonutFG` (`water` , `swap` , `air`, `date`) VALUES (0, 0, 0, 0, ?);';
 						connection.query(sql, [formatted_date_now], (err, results) => {
 							if (err) {
 								return next(err);
@@ -2210,7 +2210,7 @@ exports.updateFG = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'UPDATE `jaw-app`.`RealTimeDonutFG` SET `TN` = `TN`+? , `PH` = `PH`+? , `SALT`=`SALT`+?, `TSS`=`TSS`+?, `HISTAMINE`=`HISTAMINE`+?, `SPG`=`SPG`+?, `AW`=`AW`+?  ,`AN`=`AN`+? , `Acidity`=`Acidity`+? , `Viscosity`=`Viscosity`+? WHERE date=? ';
+			'UPDATE `veit-hong`.`RealTimeDonutFG` SET `TN` = `TN`+? , `PH` = `PH`+? , `SALT`=`SALT`+?, `TSS`=`TSS`+?, `HISTAMINE`=`HISTAMINE`+?, `SPG`=`SPG`+?, `AW`=`AW`+?  ,`AN`=`AN`+? , `Acidity`=`Acidity`+? , `Viscosity`=`Viscosity`+? WHERE date=? ';
 		connection.query(
 			sql,
 			[
@@ -2264,7 +2264,7 @@ exports.updateSTadST = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'UPDATE `jaw-app`.`RealTimeDonutST` SET `water` = `water`+? , `swap` = `swap`+? , `air`=`air`+?, WHERE date=?';
+			'UPDATE `veit-hong`.`RealTimeDonutST` SET `water` = `water`+? , `swap` = `swap`+? , `air`=`air`+?, WHERE date=?';
 		connection.query(
 			sql,
 			[Tn, PH, Salt, Tss, Histamine, SPG, Aw, formatted_date_now],
@@ -2293,7 +2293,7 @@ exports.updateCardDS = (req, res, next) => {
 
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql = 'SELECT * FROM `jaw-app`.Orders;';
+		var sql = 'SELECT * FROM `veit-hong`.Orders;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2303,7 +2303,7 @@ exports.updateCardDS = (req, res, next) => {
 				req.getConnection((err, connection) => {
 					if (err) return next(err);
 					var sql =
-						'UPDATE `jaw-app`.RealTimeCardDS SET ALLSample=?  WHERE idRealTimeCardDS = 1 ;';
+						'UPDATE `veit-hong`.RealTimeCardDS SET ALLSample=?  WHERE idRealTimeCardDS = 1 ;';
 					connection.query(sql, [allOrder], (err, results) => {
 						if (err) {
 							return next(err);
@@ -2323,7 +2323,7 @@ exports.updateCardDS = (req, res, next) => {
 exports.readCardDS = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql = 'SELECT * FROM `jaw-app`.RealTimeCardDS;';
+		var sql = 'SELECT * FROM `veit-hong`.RealTimeCardDS;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2389,7 +2389,7 @@ exports.UpdatexportCOA = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'UPDATE `jaw-app`.RealTimeCardDS SET COAExprot=COAExprot+1  WHERE idRealTimeCardDS = 1 ;';
+			'UPDATE `veit-hong`.RealTimeCardDS SET COAExprot=COAExprot+1  WHERE idRealTimeCardDS = 1 ;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2410,7 +2410,7 @@ exports.UpdatexportPASS = (req, res, next) => {
 	// console.log('UpdatexportCOA : ', body)
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql2 = 'UPDATE `jaw-app`.`Orders` SET Status=1 WHERE idOrders = ?';
+		var sql2 = 'UPDATE `veit-hong`.`Orders` SET Status=1 WHERE idOrders = ?';
 		connection.query(sql2, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2431,7 +2431,7 @@ exports.PassToCheck = (req, res, next) => {
 	// console.log('UpdatexportCOA : ', body)
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql2 = 'UPDATE `jaw-app`.`Orders` SET Status=4 WHERE idOrders = ?';
+		var sql2 = 'UPDATE `veit-hong`.`Orders` SET Status=4 WHERE idOrders = ?';
 		connection.query(sql2, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2489,7 +2489,7 @@ exports.PassToCheck = (req, res, next) => {
 exports.CustomersName = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql = 'SELECT * FROM `jaw-app`.Customers;';
+		var sql = 'SELECT * FROM `veit-hong`.Customers;';
 		connection.query(sql, [], (err, results) => {
 			if (err) {
 				return next(err);
@@ -2552,13 +2552,13 @@ exports.UpdateStatusReprocess = (req, res, next) => {
 	// console.log('DesArray : ', DesArray.toString());
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
-		var sql = 'UPDATE `jaw-app`.`Orders` SET Status=5 WHERE idOrders = ?';
+		var sql = 'UPDATE `veit-hong`.`Orders` SET Status=5 WHERE idOrders = ?';
 		connection.query(sql, [idOrders], (err, results) => {
 			if (err) {
 				return next(err);
 			} else {
 				var sql2 =
-					'UPDATE `jaw-app`.`testResults` SET  Description = ? WHERE idOrderTested = ?';
+					'UPDATE `veit-hong`.`testResults` SET  Description = ? WHERE idOrderTested = ?';
 				connection.query(
 					sql2,
 					[`${DesArray.toString()}`, idOrders],
@@ -2619,7 +2619,7 @@ exports.UpdateDatailOrder = (req, res, next) => {
 	req.getConnection((err, connection) => {
 		if (err) return next(err);
 		var sql =
-			'UPDATE `jaw-app`.`Orders` SET RefNo=?, PD=? , DD=? , ED=?,Tank=?, DCL1=? ,DCL2=? ,DCL3=? ,testDate=?,Size=?,Quantity=? WHERE idOrders = ?';
+			'UPDATE `veit-hong`.`Orders` SET RefNo=?, PD=? , DD=? , ED=?,Tank=?, DCL1=? ,DCL2=? ,DCL3=? ,testDate=?,Size=?,Quantity=? WHERE idOrders = ?';
 		connection.query(
 			sql,
 			[
