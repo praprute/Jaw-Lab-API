@@ -19,7 +19,7 @@ exports.register = (req, res, next) => {
             // console.log(name.length)
             if (username.length > 0) {
                 if (password.length > 0) {
-                    var sql = "SELECT*FROM `jaw-app`.`users` WHERE username=?;"
+                    var sql = "SELECT*FROM `veit-hong`.`users` WHERE username=?;"
                     connection.query(sql, [username], (err, results) => {
                         if (err || results.length > 0) {
                         //     return next(err)
@@ -31,7 +31,7 @@ exports.register = (req, res, next) => {
                                 message_th: "username is duplicate"
                             });
                         } else {
-                            var sql = "INSERT INTO `jaw-app`.`users` ( username, password) \
+                            var sql = "INSERT INTO `veit-hong`.`users` ( username, password) \
                             VALUES (?, ?);"
                             connection.query(sql, [username, password], (err, results) => {
                                 if (err) {
@@ -87,7 +87,7 @@ exports.signin = (req, res, next) => {
     }else{
          req.getConnection((err, connection) => {
         if (err) return next(err)
-        var sql = "SELECT*FROM `jaw-app`.`users` WHERE username=? ;"
+        var sql = "SELECT*FROM `veit-hong`.`users` WHERE username=? ;"
         connection.query(sql, [username], (err, results) => {
             if (err) {
                 return next(err)

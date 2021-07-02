@@ -223,7 +223,7 @@ exports.addOrder = (req, res, next) => {
 																results3[0].name
 															)} ต้องทำการตรวจวัด ${messageSampleObject
 																.toString()
-																.trim()}`,
+																.trim()} ==> เวียดฮง`,
 														},
 													},
 													(err, httpResponse, body) => {
@@ -504,7 +504,7 @@ exports.reSend = (req, res, next) => {
 							bearer: tokenLineLab,
 						},
 						form: {
-							message: `Resend from production order ${ProductName} specific ${Spc} `,
+							message: `Resend from production order ${ProductName} specific ${Spc} ==> เวียดฮง`,
 						},
 					},
 					(err, httpResponse, body) => {
@@ -2035,7 +2035,7 @@ exports.Recheck = (req, res, next) => {
 										bearer: tokenLineProduction,
 									},
 									form: {
-										message: `Order ${ProductName} status recheck ==> { ${listRecheck.toString()} } `,
+										message: `Order ${ProductName} status recheck ==> { ${listRecheck.toString()} } ==> เวียดฮง`,
 									},
 								},
 								(err, httpResponse, body) => {
@@ -2452,7 +2452,7 @@ exports.PassToCheck = (req, res, next) => {
 							bearer: tokenLineProduction,
 						},
 						form: {
-							message: `${pn} status complete check `,
+							message: `${pn} status complete check ==> เวียดฮง `,
 						},
 					},
 					(err, httpResponse, body) => {
@@ -2577,7 +2577,7 @@ exports.UpdateStatusReprocess = (req, res, next) => {
 										bearer: tokenLineLab,
 									},
 									form: {
-										message: `Reprocess from production order ${ProductName} list :  ${DesArray.toString()}`,
+										message: `Reprocess from production order ${ProductName} list :  ${DesArray.toString()} ==> เวียดฮง`,
 									},
 								},
 								(err, httpResponse, body) => {
