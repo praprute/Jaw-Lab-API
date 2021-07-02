@@ -2343,7 +2343,8 @@ exports.exportCOA = (req, res, next) => {
 		if (err) {
 			return next(err);
 		} else {
-			imageToBase64('https://jaw.sgp1.digitaloceanspaces.com/Logo-RFS.png') // Path to the image
+			imageToBase64('https://jaw.sgp1.digitaloceanspaces.com/veitlogo.jpg')
+				// imageToBase64('https://jaw.sgp1.digitaloceanspaces.com/Logo-RFS.png') // Path to the image
 				.then((response) => {
 					res.json({
 						success: 'success',
@@ -2507,7 +2508,7 @@ exports.UpdateStatusReprocess = (req, res, next) => {
 
 	var idOrders = body.idOrders;
 	var description = body.Description;
-    var ProductName = body.ProductName;
+	var ProductName = body.ProductName;
 	// console.log('UpdatexportCOA : ', body);
 	let DesArray = [];
 
