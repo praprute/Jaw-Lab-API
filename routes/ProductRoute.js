@@ -1,42 +1,45 @@
 const express = require('express');
 const router = express.Router();
 
-const { addOrder,
-    updateOrder,
-    deleteOrder,
-    readAllOrder,
-    readOrderById,
-    readAllSpecificChem,
-    addSpecificChem,
-    updateSpecificChem,
-    readAllSpecificChemById,
-    DeleteSpecificChemById,
-    readRecheckOrder,
-    readRealTimeOrder,
-    readTestReportlasted,
-    readAllSpecificBioById,
-    Addtestreport,
-    readAllSpecificMicro,
-    readIdChem,
-    readIdMicro,
-    urgentOrders,
-    readOrdertoCheck,
-    reSend,
-    Recheck,
-    WaitMicro,
-    readFG,
-    updateFG,
-    readST,
-    updateSTadST,
-    addRealTimeOrder,
-    updateCardDS,
-    readCardDS,
-    exportCOA,
-    UpdatexportCOA,
-    UpdatexportPASS,
-    PassToCheck,
-    CustomersName,
-    loadHalalLogo
+const {
+	addOrder,
+	updateOrder,
+	deleteOrder,
+	readAllOrder,
+	readOrderById,
+	readAllSpecificChem,
+	addSpecificChem,
+	updateSpecificChem,
+	readAllSpecificChemById,
+	DeleteSpecificChemById,
+	readRecheckOrder,
+	readRealTimeOrder,
+	readTestReportlasted,
+	readAllSpecificBioById,
+	Addtestreport,
+	readAllSpecificMicro,
+	readIdChem,
+	readIdMicro,
+	urgentOrders,
+	readOrdertoCheck,
+	reSend,
+	Recheck,
+	WaitMicro,
+	readFG,
+	updateFG,
+	readST,
+	updateSTadST,
+	addRealTimeOrder,
+	updateCardDS,
+	readCardDS,
+	exportCOA,
+	UpdatexportCOA,
+	UpdatexportPASS,
+	PassToCheck,
+	CustomersName,
+	loadHalalLogo,
+	UpdateStatusReprocess,
+	UpdateDatailOrder,
 } = require('../controller/ProductConotroller');
 
 // const status = {
@@ -115,6 +118,13 @@ router.post('/loadHalalLogo', requireSignin,loadHalalLogo);
 //exportCOA
 router.post('/UpdatexportCOA', requireSignin,UpdatexportCOA);
 router.post('/UpdatexportPASS', requireSignin,UpdatexportPASS);
+
+//UpdateDatailOrder
+router.post('/UpdateDatailOrder', requireSignin, UpdateDatailOrder);
+
+
+//Reprocess 
+router.post('/Reprocess', requireSignin, UpdateStatusReprocess);
 
 //Get Customers
 router.get('/getCustomers' , requireSignin,CustomersName);
