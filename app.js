@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 	user: 'admin',
 	password: '0990576878JUNIOR',
 	port: 3306,
-	database: 'jaw-app',
+	database: 'veit-hong',
 	dateStrings: true,
 	insecureAuth: true,
 });
