@@ -40,6 +40,7 @@ const {
 	loadHalalLogo,
 	UpdateStatusReprocess,
 	UpdateDatailOrder,
+	queryDetailMulti,
 } = require('../controller/ProductConotroller');
 
 // const status = {
@@ -126,6 +127,12 @@ router.post('/UpdateDatailOrder', requireSignin, UpdateDatailOrder);
 //Reprocess 
 router.post('/Reprocess', requireSignin, UpdateStatusReprocess);
 
+//queryDetailMulti
+router.post('/queryDetailMulti', requireSignin, queryDetailMulti);
+
+
 //Get Customers
 router.get('/getCustomers' , requireSignin,CustomersName);
 module.exports = router;
+
+
