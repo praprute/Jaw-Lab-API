@@ -2343,6 +2343,7 @@ exports.updateFG = (req, res, next) => {
 };
 
 exports.updateSTadST = (req, res, next) => {
+
 	var { body } = req;
 
 	var Tn = body.Tn;
@@ -2706,26 +2707,30 @@ exports.UpdateStatusReprocess = (req, res, next) => {
 exports.queryDetailMulti = async (req, res, next) => {
 	var { body } = req;
 	// console.log(body);
-	// var dataResponse = []; 
+	var idOrders = body.id
 	// for (let i = 0; i < body.length; i++) {
-	// console.log(body[i]);
+	// console.log(idOrders);
+
 	req.getConnection(async (err, connection) => {
 		if (err) return next(err);
-		
-		for (let i = 0; i < body.length; i++) {
-			var sql = 'SELECT*FROM `jaw-app`.`Orders`, `jaw-app`.`PdSpecificChem` WHERE idOrders = ? AND Orders.idScfChem = PdSpecificChem.idPdSpecificChem';
-			connection.query(sql, [body[i]], (err, results) => {
-				if (err) {
-					return next(err);
-				} else {
-					let json = {
-						idOrders: results[0].idOrders
-					}
-					console.log('rrr', json);
-					// dataResponse.push('json');
-				}
-			});
-		}
+		// for (let i = 0; i < body.length; i++) {
+		var sql = 'SELECT testResults.Tn, testResults.PH, testResults.Salt, testResults.Tss, testResults.Histamine, testResults.SPGTest, testResults.Aw, testResults.AN, testResults.tempAW,\
+testResults.Acidity,  testResults.Viscosity, testResults.SaltMeter, testResults.Color,testResults.APC, testResults.EColi, Orders.ProductName FROM `jaw-app`.testResults, `jaw-app`.Orders,`jaw-app`.PdSpecificChem  , `jaw-app`.PdSpecificMicro \
+WHERE testResults.idOrderTested = ? AND testResults.idSpfChem = PdSpecificChem.idPdSpecificChem AND testResults.idOrderTested = Orders.idOrders ORDER BY testResults.timestampTest DESC LIMIT 1;'
+		// 	'SELECT * FROM `jaw-app`.testResults, `jaw-app`.PdSpecificChem  , `jaw-app`.PdSpecificMicro \
+        //  WHERE testResults.idOrderTested = ? AND testResults.idSpfChem = PdSpecificChem.idPdSpecificChem  ORDER BY testResults.timestampTest DESC LIMIT 1;';
+			
+		connection.query(sql, [idOrders], (err, results) => {
+			if (err) {
+				return next(err);
+			} else {
+				res.json({
+					success: 'success',
+					message: results,
+				});
+			}
+		});
+		// }
 		// console.log('dr',dataResponse);
 		// res.json({
 		// 	success: 'success',
