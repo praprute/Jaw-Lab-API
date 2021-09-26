@@ -41,6 +41,8 @@ const {
 	UpdateStatusReprocess,
 	UpdateDatailOrder,
 	queryDetailMulti,
+	dailyReport,
+	dailyReportBio,
 } = require('../controller/ProductConotroller');
 
 // const status = {
@@ -85,6 +87,10 @@ router.post('/readCardDS', requireSignin,readCardDS);
 //real time order
 router.post('/addRealTimeOrder', requireSignin,addRealTimeOrder);
 router.post('/readRealTimeOrder', requireSignin,readRealTimeOrder);
+router.post('/dailyReport', requireSignin, dailyReport);
+router.post('/dailyReportBio', requireSignin, dailyReportBio);
+
+// dailyReportBio
 //Read Chart FG ST
 router.post('/readFG', requireSignin,readFG);
 router.post('/updateFGadFG', requireSignin,updateFG);

@@ -785,6 +785,32 @@ exports.urgentOrders = (req, res, next) => {
 	});
 };
 
+exports.dailyReport = async (req, res, next) => {
+	var { body } = req;
+	let ds = body.dStart;
+	let de = body.dNow;
+	await req.getConnection(async (err, connection) => {
+		if (err) return next(err);
+		var sql =
+			'SELECT testResults.*,Orders.ProductName , Orders.idOrders FROM `jaw-app`.testResults INNER JOIN `jaw-app`.Orders ON testResults.idOrderTested = Orders.idOrders where testResults.timestampTest BETWEEN ? AND ? ;';
+		await connection.query(
+			sql,
+			[`${ds.toString()}`, `${de.toString()}`],
+			async (err, results) => {
+				if (err) {
+					return next(err);
+				} else {
+					res.json({
+						success: 'success',
+						message: results,
+						message_th: 'ทำการอ่านข้อมูล order ลงรายงการเรียบร้อย',
+					});
+				}
+			}
+		);
+	});
+}
+
 exports.readRealTimeOrder = (req, res, next) => {
 	var { body } = req;
 
@@ -2052,6 +2078,57 @@ function testResult(index) {
 		return null;
 	}
 }
+
+exports.dailyReportBio = async (req, res, next) => {
+	var { body } = req;
+	let ds = body.dStart;
+	let de = body.dNow;
+	await req.getConnection(async (err, connection) => {
+		if (err) return next(err);
+		var sql =
+			" SELECT *, \
+CASE 	\
+	WHEN APC >= PdSpecificMicro.APCMin AND APC <= PdSpecificMicro.APCMax THEN '1' \
+    ELSE '0'  \
+END AS resultAPC , \
+CASE \
+    WHEN Yeasts >= PdSpecificMicro.YeastsMin AND Yeasts <= PdSpecificMicro.YeastsMax THEN '1' \
+    ELSE '0' \
+END AS resultYeasts , \
+CASE \
+    WHEN EColi >= PdSpecificMicro.EColiMin AND EColi <= PdSpecificMicro.EColiMax THEN '1' \
+    ELSE '0' \
+END AS resultEColi, \
+CASE \
+    WHEN Coliform >= PdSpecificMicro.ColiformMin AND Coliform <= PdSpecificMicro.ColiformMax THEN '1' \
+    ELSE '0' \
+END AS resultColiform, \
+CASE \
+    WHEN Saureus >= PdSpecificMicro.SaureusMin AND Saureus <= PdSpecificMicro.SaureusMax THEN '1' \
+    ELSE '0' \
+END AS resultSaureus \
+FROM (SELECT testResults.*,Orders.ProductName, Orders.idOrders   \
+FROM `jaw-app`.testResults INNER JOIN `jaw-app`.Orders ON testResults.idOrderTested = Orders.idOrders where testResults.timestampTest BETWEEN ? AND ? ) \
+FULL JOIN `jaw-app`.PdSpecificMicro; ";
+
+		await connection.query(
+			sql,
+			[`${ds.toString()}`, `${de.toString()}`],
+			async (err, results) => {
+				if (err) {
+					return next(err);
+				} else {
+					res.json({
+						success: 'success',
+						message: results,
+						message_th: 'ทำการอ่านข้อมูล order ลงรายงการเรียบร้อย',
+					});
+				}
+			}
+		);
+	});
+};
+
 
 exports.readTestReportlasted = (req, res, next) => {
 	var { body } = req;
