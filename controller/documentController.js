@@ -9,7 +9,9 @@ exports.getHeaderCoa1 = (req, res, next) => {
     exp_date,pack_size,tank_no,quantity,test_date,timestamp \
     FROM `" +
       process.env.DB_NAME +
-      "`.first_coa left join (SELECT * FROM `jaw-app`.Customers) customer ON customer.idCustomers = first_coa.customer;";
+      "`.first_coa left join(SELECT * FROM `" +
+      `${process.env.DB_NAME}` +
+      "`.Customers) customer ON customer.idCustomers = first_coa.customer;";
 
     connection.query(sql, [], (err, results) => {
       if (err) {
@@ -36,7 +38,9 @@ exports.getHeaderCoa2 = (req, res, next) => {
     timestamp \
     FROM `" +
       process.env.DB_NAME +
-      "`.second_coa left join (SELECT * FROM `jaw-app`.Customers) customer ON customer.idCustomers = second_coa.customer;";
+      "`.second_coa left join (SELECT * FROM `" +
+      `${process.env.DB_NAME}` +
+      "`.Customers) customer ON customer.idCustomers = second_coa.customer;";
 
     connection.query(sql, [], (err, results) => {
       if (err) {
@@ -63,7 +67,9 @@ exports.getHeaderCoa3 = (req, res, next) => {
     timestamp \
     FROM `" +
       process.env.DB_NAME +
-      "`.third_coa left join (SELECT * FROM `jaw-app`.Customers) customer ON customer.idCustomers = third_coa.customer;";
+      "`.third_coa left join (SELECT * FROM `" +
+      `${process.env.DB_NAME}` +
+      "`.Customers) customer ON customer.idCustomers = third_coa.customer;";
 
     connection.query(sql, [], (err, results) => {
       if (err) {
@@ -90,7 +96,9 @@ exports.getHeaderCoa4 = (req, res, next) => {
     timestamp \
     FROM `" +
       process.env.DB_NAME +
-      "`.fourth_coa left join (SELECT * FROM `jaw-app`.Customers) customer ON customer.idCustomers = fourth_coa.customer;";
+      "`.fourth_coa left join (SELECT * FROM `" +
+      `${process.env.DB_NAME}` +
+      "`.Customers) customer ON customer.idCustomers = fourth_coa.customer;";
 
     connection.query(sql, [], (err, results) => {
       if (err) {
@@ -117,7 +125,9 @@ exports.getHeaderCoa5 = (req, res, next) => {
       timestamp \
     FROM `" +
       process.env.DB_NAME +
-      "`.fifth_coa left join (SELECT * FROM `jaw-app`.Customers) customer ON customer.idCustomers = fifth_coa.customer;";
+      "`.fifth_coa left join (SELECT * FROM `" +
+      `${process.env.DB_NAME}` +
+      "`.Customers) customer ON customer.idCustomers = fifth_coa.customer;";
 
     connection.query(sql, [], (err, results) => {
       if (err) {
