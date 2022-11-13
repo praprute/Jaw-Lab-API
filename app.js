@@ -7,6 +7,7 @@ const myConnection = require('express-myconnection');
 const dbOption = require('./config');
 const authRoutes = require('./routes/AuthRoute');
 const productRoute = require('./routes/ProductRoute');
+const documentRoute = require('./routes/DocumentRoute')
 const PORT = 8000;
 //8000
 app.use(
@@ -23,10 +24,10 @@ app.use(express.json());
 
 var connection = mysql.createConnection({
 	host: '127.0.0.1',
-	user: 'admin',
-	password: '0990576878JUNIOR',
+	user: 'root',
+	password: '12345678',
 	port: 3306,
-	database: 'veit-hong',
+	database: 'jaw-app',
 	dateStrings: true,
 	insecureAuth: true,
 });
@@ -40,6 +41,7 @@ connection.connect((err) => {
 app.use(myConnection(mysql, dbOption.dbOption, 'pool'));
 app.use('/api', authRoutes);
 app.use('/api', productRoute);
+app.use('/api', documentRoute);
 
 app.listen(PORT, () => {
 	console.log('ready server on http://localhost:' + PORT);

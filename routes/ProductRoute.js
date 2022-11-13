@@ -60,8 +60,8 @@ const {
 //     2: <span className="badge bg-danger font-size-10">urgent</span>,
 //     }
 
-
 const { requireSignin } = require('../controller/authController')
+
 router.post('/addOrder', requireSignin,addOrder);
 router.post('/updateOrder', requireSignin,updateOrder);
 router.post('/deleteOrder', requireSignin,deleteOrder);
