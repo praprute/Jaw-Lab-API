@@ -70,7 +70,6 @@ exports.requireSignin = expressJwt({
 
 exports.signin = (req, res, next) => {
   var { body } = req;
-  // console.log(body)
   var username = body.username;
   var password = body.password;
   if (username == "" || password == "") {
@@ -82,7 +81,8 @@ exports.signin = (req, res, next) => {
   } else {
     req.getConnection((err, connection) => {
       if (err) return next(err);
-      var sql = "SELECT*FROM `jaw-app`.`users` WHERE username=? ;";
+      var sql =
+        "SELECT*FROM `" + process.env.DB_NAME + "`.`users` WHERE username=? ;";
       connection.query(sql, [username], (err, results) => {
         if (err) {
           return next(err);
