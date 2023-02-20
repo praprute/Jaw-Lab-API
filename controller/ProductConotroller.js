@@ -2024,7 +2024,7 @@ END AS resultSaureus \
 FROM (SELECT testResults.*,Orders.ProductName, Orders.idOrders   \
 FROM `" +
       process.env.DB_NAME +
-      "`.testResults INNER JOIN `" +
+      "`.testResults jaw-app JOIN `" +
       process.env.DB_NAME +
       "`.Orders ON testResults.idOrderTested = Orders.idOrders where testResults.timestampTest BETWEEN ? AND ? ) \
 FULL JOIN `" +
@@ -2743,6 +2743,61 @@ WHERE testResults.idOrderTested = ? AND testResults.idSpfChem = PdSpecificChem.i
         });
       }
     });
+  });
+};
+
+exports.qaVerifyTestResult = (req, res, next) => {
+  const { body } = req;
+
+  const idOrders = body.idOrders;
+  const verify = body.verify;
+
+  req.getConnection((err, connection) => {
+    if (err) return next(err);
+    var sql =
+      "UPDATE `" +
+      process.env.DB_NAME +
+      "`.`Orders` SET verify=? WHERE idOrders = ?";
+    connection.query(sql, [verify, idOrders], (err, results) => {
+      if (err) {
+        return next(err);
+      } else {
+        res.json({
+          success: "success",
+          message: results,
+        });
+      }
+    });
+  });
+};
+
+exports.updateTestDateOrder = (req, res, next) => {
+  const { body } = req;
+  const testDate = body.testDate;
+  const collected = body.collected;
+  const idOrders = body.idOrders;
+  const sampleCharactor = body.sampleCharactor;
+
+  req.getConnection((err, connection) => {
+    const sql =
+      "UPDATE `" +
+      process.env.DB_NAME +
+      "`.`Orders` set testDate=?, collected=?, sampleCharactor=? WHERE idOrders = ? ;";
+
+    connection.query(
+      sql,
+      [testDate, collected, sampleCharactor, idOrders],
+      (err, results) => {
+        if (err) {
+          return next(err);
+        } else {
+          res.json({
+            success: "success",
+            message: results,
+          });
+        }
+      }
+    );
   });
 };
 
