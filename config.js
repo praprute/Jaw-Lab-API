@@ -5,14 +5,14 @@ module.exports = {
     // user: "root",
     // password: "12345678",
     // port: 3306,
-    // database: "jaw-app", 'veit-hong'
+    // database: "jaw-app", // 'veit-hong'
     // dateStrings: true,
     // insecureAuth: true,
-    host: '128.199.228.63',
+    host: '127.0.0.1',
     user: 'admin',
     password: '0990576878JUNIOR',
     port: 3306,
-    database: 'jaw-app',
+    database: 'veit-hong',
     dateStrings: true,
     insecureAuth : true
   },
