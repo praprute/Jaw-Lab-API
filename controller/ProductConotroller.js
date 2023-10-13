@@ -37,6 +37,8 @@ exports.addOrder = (req, res, next) => {
 
   var Micro = body.Micro;
 
+  const ref = body.ref;
+
   var ChemResponseLine = [
     { component: "Tn", value: body.Tn },
     { component: "PH", value: body.PH },
@@ -101,7 +103,7 @@ exports.addOrder = (req, res, next) => {
                     `Tn`, `PH`, `Salt`, `Tss`, \
                     `Histamine`, `SPGTest`, `Aw`, `AN`, `Acidity`, `Viscosity`,`SaltMeter`, `Color` , `idSpfMicro`, `APC`, \
                     `Yeasts`, `EColi`, `Coliform`, \
-                    `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG`,  `TnC`, `PHC`, `SaltC`, `TssC`, `HistamineC`, `SpgC`, `AwC`, `MicroC`, `ANC`, `AcidityC`, `ViscosityC`, `SaltMeterC`, `ColorC` ) VALUES ( ?,?,?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ? ) ; ";
+                    `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG`,  `TnC`, `PHC`, `SaltC`, `TssC`, `HistamineC`, `SpgC`, `AwC`, `MicroC`, `ANC`, `AcidityC`, `ViscosityC`, `SaltMeterC`, `ColorC`, `ref` ) VALUES ( ?,?,?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ; ";
             connection.query(
               sql,
               [
@@ -143,11 +145,13 @@ exports.addOrder = (req, res, next) => {
                 Viscosity,
                 SaltMeter,
                 Color,
+                !!ref ? ref : null,
               ],
               (err, results) => {
                 if (err) {
                   return next(err);
                 } else {
+                  console.log('results : ', results)
                   req.getConnection((err, connection) => {
                     if (err) next(err);
 
@@ -808,6 +812,33 @@ exports.readOrderById = (req, res, next) => {
     });
   });
 };
+
+exports.readOrderByRef = (req, res, next) => {
+  var { body } = req;
+
+  const ref = body.ref;
+
+  req.getConnection((err, connection) => {
+    if (err) return next(err);
+
+    var sql =
+      "SELECT*FROM `" +
+      process.env.DB_NAME +
+      "`.`testResults` " + " WHERE ref = ? ;";
+    connection.query(sql, [ref], (err, results) => {
+      if (err) {
+        return next(err);
+      } else {
+        res.json({
+          success: "success",
+          message: results,
+          message_th: "ทำการอ่านข้อมูล order ลงรายงการเรียบร้อย",
+        });
+      }
+    });
+  });
+};
+
 
 exports.readAllSpecificChem = (req, res, next) => {
   var { body } = req;

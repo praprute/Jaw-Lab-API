@@ -45,6 +45,7 @@ const {
   dailyReportBio,
   qaVerifyTestResult,
   updateTestDateOrder,
+  readOrderByRef,
 } = require("../controller/ProductConotroller");
 
 // const status = {
@@ -64,14 +65,14 @@ const {
 
 const { requireSignin } = require("../controller/authController");
 
-router.post("/addOrder", requireSignin, addOrder);
+router.post("/addOrder", addOrder);
 router.post("/updateOrder", requireSignin, updateOrder);
 router.post("/deleteOrder", requireSignin, deleteOrder);
 
 router.post("/readAllOrder", requireSignin, readAllOrder);
 router.post("/readOrdertoCheck", requireSignin, readOrdertoCheck);
 router.post("/urgentOrders", requireSignin, urgentOrders);
-
+router.post("/readOrderByRef", readOrderByRef);
 router.post("/readOrderById", requireSignin, readOrderById);
 router.post("/readAllSpecificChem", requireSignin, readAllSpecificChem);
 router.post("/readAllSpecificMicro", requireSignin, readAllSpecificMicro);
@@ -113,7 +114,7 @@ router.post("/reSend", requireSignin, reSend);
 router.post("/WaitMicro", requireSignin, WaitMicro);
 
 //Checkbox Specific
-router.post("/readIdChemCheckbox", requireSignin, readIdChem);
+router.post("/readIdChemCheckbox", readIdChem);
 router.post("/readIdMicroCheckbox", requireSignin, readIdMicro);
 
 //Update Statuses
