@@ -1,7 +1,7 @@
 module.exports = {
   secret: "4r0j959709ni62078u478o",
   dbOption: {
-    host: "127.0.0.1",
+    host: "128.199.228.63",
     user: "admin",
     password: "0990576878JUNIOR",
     port: 3306,

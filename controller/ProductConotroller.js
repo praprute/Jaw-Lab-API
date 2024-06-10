@@ -28,6 +28,7 @@ exports.addOrder = (req, res, next) => {
   var Histamine = body.Histamine;
   var SPG = body.Spg;
   var Aw = body.Aw;
+  var Gluten = body.Gluten;
 
   var AN = body.AN;
   var Acidity = body.Acidity;
@@ -52,6 +53,7 @@ exports.addOrder = (req, res, next) => {
     { component: "Viscosity", value: body.Viscosity },
     { component: "Salt Meter", value: body.SaltMeter },
     { component: "Color", value: body.Color },
+    { component: "Gluten", value: body.Gluten },
   ];
 
   req.getConnection((err, connection) => {
@@ -59,8 +61,8 @@ exports.addOrder = (req, res, next) => {
     var sql =
       "INSERT INTO `" +
       process.env.DB_NAME +
-      "`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority, Tn, PH, Salt, Tss , Histamine, Spg, Aw, Micro, AN, Acidity, Viscosity, SaltMeter, Color) \
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?, ?, ?, ?, ? , ?)";
+      "`.`Orders` ( PORD, BBE, PO, ProductName, Size, Quantity , idScfChem, idScfMicro, Priority, Tn, PH, Salt, Tss , Histamine, Spg, Aw, Micro, AN, Acidity, Viscosity, SaltMeter, Color, Gluten) \
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?, ?, ?, ?, ? , ?, ?)";
     connection.query(
       sql,
       [
@@ -86,6 +88,7 @@ exports.addOrder = (req, res, next) => {
         Viscosity,
         SaltMeter,
         Color,
+        Gluten
       ],
       (err, results) => {
         if (err) {
@@ -103,7 +106,7 @@ exports.addOrder = (req, res, next) => {
                     `Tn`, `PH`, `Salt`, `Tss`, \
                     `Histamine`, `SPGTest`, `Aw`, `AN`, `Acidity`, `Viscosity`,`SaltMeter`, `Color` , `idSpfMicro`, `APC`, \
                     `Yeasts`, `EColi`, `Coliform`, \
-                    `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG`,  `TnC`, `PHC`, `SaltC`, `TssC`, `HistamineC`, `SpgC`, `AwC`, `MicroC`, `ANC`, `AcidityC`, `ViscosityC`, `SaltMeterC`, `ColorC`, `ref` ) VALUES ( ?,?,?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ; ";
+                    `Saureus`, `idOrderTested`, `tempPH` ,`tempAW` ,`tempTss` ,`tempSPG`,  `TnC`, `PHC`, `SaltC`, `TssC`, `HistamineC`, `SpgC`, `AwC`, `MicroC`, `ANC`, `AcidityC`, `ViscosityC`, `SaltMeterC`, `ColorC`, `ref`, `Gluten`,`GlutenC` ) VALUES ( ?,?,?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ; ";
             connection.query(
               sql,
               [
@@ -146,6 +149,8 @@ exports.addOrder = (req, res, next) => {
                 SaltMeter,
                 Color,
                 !!ref ? ref : null,
+                null,
+                Gluten
               ],
               (err, results) => {
                 if (err) {
@@ -240,6 +245,7 @@ exports.updateOrder = (req, res, next) => {
   var Histamine = body.Histamine;
   var SPG = body.Spg;
   var Aw = body.Aw;
+  var Gluten = body.Gluten
   var Micro = body.Micro;
 
   var AN = body.AN;
@@ -257,7 +263,7 @@ exports.updateOrder = (req, res, next) => {
         "UPDATE `" +
         process.env.DB_NAME +
         "`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? ,Tn=? , PH =? , Salt=?, Tss=?, Histamine=?, Spg=?, Aw=? ,Micro=? ,\
-        AN=?, Acidity=?, Viscosity=?, SaltMeter=? , Color=? , Status=0 WHERE idOrders=?";
+        AN=?, Acidity=?, Viscosity=?, SaltMeter=? , Color=? , Status=0, Gluten=? WHERE idOrders=?";
       connection.query(
         sql,
         [
@@ -283,6 +289,7 @@ exports.updateOrder = (req, res, next) => {
           Viscosity,
           SaltMeter,
           Color,
+          Gluten,
           idOrders,
         ],
         (err, results) => {
@@ -294,7 +301,7 @@ exports.updateOrder = (req, res, next) => {
               process.env.DB_NAME +
               "`.`testResults` SET  \
                             TnC = ? , PHC =? , SaltC = ? , TssC = ?, \
-                            HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=? WHERE idOrderTested = ? ";
+                            HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=?, GlutenC=? WHERE idOrderTested = ? ";
             connection.query(
               sql2,
               [
@@ -311,6 +318,7 @@ exports.updateOrder = (req, res, next) => {
                 SaltMeter,
                 Color,
                 Micro,
+                Gluten,
                 idOrders,
               ],
               (err, results) => {
@@ -358,7 +366,7 @@ exports.updateOrder = (req, res, next) => {
         "UPDATE `" +
         process.env.DB_NAME +
         "`.`Orders` SET  PORD=?, BBE=?, PO=?, ProductName=?, Size=?, Quantity=?, idScfChem=?, idScfMicro=?, Priority=? ,Tn=? , PH =? , Salt=?, Tss=?, Histamine=?, Spg=?, Aw=? ,Micro=? ,\
-        AN=?, Acidity=?, Viscosity=?, SaltMeter=? , Color=? WHERE idOrders=?";
+        AN=?, Acidity=?, Viscosity=?, SaltMeter=? , Color=?, Gluten=? WHERE idOrders=?";
       connection.query(
         sql,
         [
@@ -384,6 +392,7 @@ exports.updateOrder = (req, res, next) => {
           Viscosity,
           SaltMeter,
           Color,
+          Gluten,
           idOrders,
         ],
         (err, results) => {
@@ -395,7 +404,7 @@ exports.updateOrder = (req, res, next) => {
               process.env.DB_NAME +
               "`.`testResults` SET  \
                             TnC = ? , PHC =? , SaltC = ? , TssC = ?, \
-                            HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=? WHERE idOrderTested = ? ";
+                            HistamineC = ? , SpgC = ?, AwC = ?, ANC = ?, AcidityC = ?, ViscosityC = ?, SaltMeterC = ?, ColorC = ? ,MicroC=?,  GlutenC=? WHERE idOrderTested = ? ";
             connection.query(
               sql2,
               [
@@ -412,6 +421,7 @@ exports.updateOrder = (req, res, next) => {
                 SaltMeter,
                 Color,
                 Micro,
+                Gluten,
                 idOrders,
               ],
               (err, results) => {
@@ -1208,6 +1218,7 @@ exports.Addtestreport = (req, res, next) => {
   var Viscosity = body.Viscosity;
   var SaltMeter = body.SaltMeter;
   var Color = body.Color;
+  var Gluten = body.Gluten;
 
   var idSpfMicro = body.idSpfMicro;
   var APC = body.APC;
@@ -1232,7 +1243,7 @@ exports.Addtestreport = (req, res, next) => {
         Histamine = ? , SPGTest = ?, Aw = ?, \
         idSpfMicro = ?, APC = ?, \
         Yeasts = ?, EColi = ?, Coliform = ? , \
-        Saureus = ? , tempPH = ? , tempAW = ? , tempTss = ?  , tempSPG = ? , AN = ?, Acidity = ?, Viscosity = ?, SaltMeter=?, Color=? , timestampTest=? WHERE idOrderTested = ? ";
+        Saureus = ? , tempPH = ? , tempAW = ? , tempTss = ?  , tempSPG = ? , AN = ?, Acidity = ?, Viscosity = ?, SaltMeter=?, Color=? , timestampTest=?, Gluten=? WHERE idOrderTested = ? ";
     connection.query(
       sql,
       [
@@ -1261,6 +1272,7 @@ exports.Addtestreport = (req, res, next) => {
         SaltMeter,
         Color,
         timeStamp,
+        Gluten,
         idOrders,
       ],
       (err, results) => {
@@ -1665,6 +1677,49 @@ function testResult(index) {
         tkTemp: false,
       };
       TestedIndex.push(AN);
+    }
+
+    console.log('index.Gluten : ', index.Gluten)
+    // Gluten
+    if (index.Gluten == null) {
+      let Gluten = {
+        render: index.GlutenC,
+        int: false,
+        coa: false,
+        val: index.Gluten,
+        valGluten: index.Gluten,
+        key: "Gluten",
+        temp: false,
+        keyInput: "Gluten",
+        tkTemp: false,
+      };
+      TestedIndex.push(Gluten);
+    } else if (index.Gluten >= index.GlutenMin && index.Gluten <= index.GlutenMax) {
+      let Gluten = {
+        render: index.GlutenC,
+        int: true,
+        coa: true,
+        val: index.Gluten,
+        valGluten: index.Gluten,
+        key: "Gluten",
+        temp: false,
+        keyInput: "Gluten",
+        tkTemp: false,
+      };
+      TestedIndex.push(Gluten);
+    } else {
+      let Gluten = {
+        render: index.GlutenC,
+        int: false,
+        coa: false,
+        val: index.Gluten,
+        valGluten: index.Gluten,
+        key: "Gluten",
+        temp: false,
+        keyInput: "Gluten",
+        tkTemp: false,
+      };
+      TestedIndex.push(Gluten);
     }
 
     //Acidity
@@ -2687,6 +2742,9 @@ exports.UpdateStatusReprocess = (req, res, next) => {
   if (description.Color) {
     DesArray.push("Color");
   }
+  if(description.Gluten){
+    DesArray.push("Gluten");
+  }
 
   req.getConnection((err, connection) => {
     if (err) return next(err);
@@ -2753,7 +2811,7 @@ exports.queryDetailMulti = async (req, res, next) => {
 
     var sql =
       "SELECT testResults.Tn, testResults.PH, testResults.Salt, testResults.Tss, testResults.Histamine, testResults.SPGTest, testResults.Aw, testResults.AN, testResults.tempAW,\
-testResults.Acidity,  testResults.Viscosity, testResults.SaltMeter, testResults.Color,testResults.APC, testResults.EColi, Orders.ProductName FROM `" +
+testResults.Acidity, testResults.Gluten,  testResults.Viscosity, testResults.SaltMeter, testResults.Color,testResults.APC, testResults.EColi, Orders.ProductName FROM `" +
       process.env.DB_NAME +
       "`.testResults, `" +
       process.env.DB_NAME +
