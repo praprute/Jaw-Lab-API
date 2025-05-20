@@ -1,20 +1,20 @@
 module.exports = {
   secret: "4r0j959709ni62078u478o",
   dbOption: {
-    host: "128.199.228.63",
-    user: "admin",
-    password: "0990576878JUNIOR",
-    port: 3306,
-    database: "veit-hong", // 'veit-hong'
-    dateStrings: true,
-    insecureAuth: true,
-    // host: '127.0.0.1',
-    // user: 'admin',
-    // password: '0990576878JUNIOR',
+    // host: "128.199.228.63",
+    // user: "admin",
+    // password: "0990576878JUNIOR",
     // port: 3306,
-    // database: 'veit-hong',
+    // database: "veit-hong", // 'veit-hong'
     // dateStrings: true,
-    // insecureAuth : true
+    // insecureAuth: true,
+    host: '127.0.0.1',
+    user: 'admin',
+    password: '0990576878JUNIOR',
+    port: 3306,
+    database: 'veit-hong',
+    dateStrings: true,
+    insecureAuth : true
   },
 };
 //db name : "jaw-app", 'veit-hong'
