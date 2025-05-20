@@ -23,7 +23,7 @@ app.use(express.json());
 // console.log(dbOption)
 
 var connection = mysql.createConnection({
-  host: "127.0.0.1",
+  host: "128.199.228.63",
   user: "admin",
   password: "0990576878JUNIOR",
   port: 3306,
