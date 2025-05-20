@@ -151,7 +151,7 @@ exports.addOrder = (req, res, next) => {
                 if (err) {
                   return next(err);
                 } else {
-                  console.log('results : ', results)
+                  console.log("results : ", results);
                   req.getConnection((err, connection) => {
                     if (err) next(err);
 
@@ -824,7 +824,8 @@ exports.readOrderByRef = (req, res, next) => {
     var sql =
       "SELECT*FROM `" +
       process.env.DB_NAME +
-      "`.`testResults` " + " WHERE ref = ? ;";
+      "`.`testResults` " +
+      " WHERE ref = ? ;";
     connection.query(sql, [ref], (err, results) => {
       if (err) {
         return next(err);
@@ -838,7 +839,6 @@ exports.readOrderByRef = (req, res, next) => {
     });
   });
 };
-
 
 exports.readAllSpecificChem = (req, res, next) => {
   var { body } = req;
@@ -2480,6 +2480,9 @@ exports.exportCOA = (req, res, next) => {
         process.env.DB_NAME === "jaw-app"
           ? "https://jaw.sgp1.digitaloceanspaces.com/Logo-RFS.png"
           : "https://jaw.sgp1.digitaloceanspaces.com/veitlogo.jpg";
+
+      console.log("exportCOA : ", process.env.DB_NAME, url);
+
       imageToBase64(url)
         .then((response) => {
           res.json({

@@ -5,7 +5,7 @@ module.exports = {
     user: "admin",
     password: "0990576878JUNIOR",
     port: 3306,
-    database: "jaw-app", // 'veit-hong'
+    database: "veit-hong", // 'veit-hong'
     dateStrings: true,
     insecureAuth: true,
     // host: '127.0.0.1',
