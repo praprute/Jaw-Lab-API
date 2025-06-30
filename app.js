@@ -8,7 +8,7 @@ const dbOption = require("./config");
 const authRoutes = require("./routes/AuthRoute");
 const productRoute = require("./routes/ProductRoute");
 const documentRoute = require("./routes/DocumentRoute");
-const PORT = 8000;
+const PORT = 8001;
 //8000
 app.use(
   cors({
