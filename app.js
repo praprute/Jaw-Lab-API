@@ -24,8 +24,8 @@ app.use(express.json());
 
 var connection = mysql.createConnection({
   host: "127.0.0.1",
-  user: "admin",
-  password: "0990576878JUNIOR",
+  user: "admin1",
+  password: "0934536550@junior",
   port: 3306,
   database: "veit-hong", // 'veit-hong'
   dateStrings: true,
