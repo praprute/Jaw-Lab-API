@@ -8,9 +8,9 @@ module.exports = {
     // database: "veit-hong", // 'veit-hong'
     // dateStrings: true,
     // insecureAuth: true,
-    host: '127.0.0.1',
+    host: '134.209.107.161',
     user: 'admin1',
-    password: '0934536550@junior',
+    password: '0934536550@Junior',
     port: 3306,
     database: 'veit-hong',
     dateStrings: true,
